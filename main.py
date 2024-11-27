@@ -7,6 +7,7 @@ from langchain_openai import ChatOpenAI
 import openai
 from dotenv import load_dotenv
 
+
 # Check if the environment variable exists
 if "OPENAI_API_KEY" in os.environ:
     # Delete the environment variable
