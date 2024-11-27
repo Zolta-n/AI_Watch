@@ -5,8 +5,15 @@ from crewai import Crew, Process, Agent, Task
 from crewai_tools.tools.website_search.website_search_tool import WebsiteSearchTool
 from langchain_openai import ChatOpenAI
 import openai
+from dotenv import load_dotenv
 
-# API: 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
+# Check if the environment variable exists
+if "OPENAI_API_KEY" in os.environ:
+    # Delete the environment variable
+    del os.environ["OPENAI_API_KEY"]
+
+
+load_dotenv()
 
 # Set your OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
