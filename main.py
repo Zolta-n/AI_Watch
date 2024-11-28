@@ -1,4 +1,9 @@
 # This is an app to collect and organize information about watches
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+
 import os
 import streamlit as st
 from crewai import Crew, Process, Agent, Task
@@ -6,6 +11,7 @@ from crewai_tools.tools.website_search.website_search_tool import WebsiteSearchT
 from langchain_openai import ChatOpenAI
 import openai
 from dotenv import load_dotenv
+
 
 # Check if the environment variable exists
 if "OPENAI_API_KEY" in os.environ:
