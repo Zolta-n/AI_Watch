@@ -1,5 +1,6 @@
 # This is an app to collect and organize information about watches
 __import__('pysqlite3')
+# We need those lines to prevent sqlite3 issues
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
