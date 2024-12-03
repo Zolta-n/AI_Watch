@@ -9,6 +9,8 @@ import os
 import streamlit as st
 from crewai import Crew, Process, Agent, Task
 from crewai_tools.tools.website_search.website_search_tool import WebsiteSearchTool
+from crewai_tools.tools.scrape_element_from_website.scrape_element_from_website import ScrapeElementFromWebsiteTool
+from crewai_tools.tools.scrape_website_tool.scrape_website_tool import ScrapeWebsiteTool
 from langchain_openai import ChatOpenAI
 import openai
 from dotenv import load_dotenv
@@ -38,7 +40,7 @@ researcher = Agent(
   role='Researcher',
   goal='Conduct foundational research on watches',
   backstory='An experienced watch researcher with a passion for uncovering insights on watches',
-  tools=[WebsiteSearchTool()]
+  tools=[WebsiteSearchTool(),ScrapeWebsiteTool(),ScrapeElementFromWebsiteTool()]
 )
 
 writer = Agent(
@@ -50,16 +52,17 @@ writer = Agent(
 # Define your tasks
 
 url_task = Task(
-  description=f"""Locate the best high quality picture for the '{model}' on a website.
-   Provide a valid link to a picture.
-   Validate links availability.""",
+  description=f"""Your task is to visit the provided website URLs, extract the best fitting image URL from the page, and return it. 
+The image URL can be found in the 'src' attribute of an <img> tag. If the URL is relative, convert it to an absolute URL using the base URL of the website.""",
   agent=researcher,
-  expected_output= 'URL'
+  expected_output= 'URL to an image'
     )
 research_task = Task(
   description=f"""Gather relevant information on the '{model}'.
    Use official manufacturer websites as a primary information source.
-   Collect all the main specification information such as movement types, power reserve, features""",
+   Collect all the main specification information such as movement types, power reserve, features.
+   Provide a table with all the specification you can find.
+   Provide a list of webpages with relevant information to the '{model}'""",
   agent=researcher,
   expected_output='Description draft'
 )
@@ -72,7 +75,7 @@ writing_task = Task(
 # Form the crew with a sequential process
 report_crew = Crew(
   agents=[researcher, writer],
-  tasks=[url_task, research_task, writing_task],
+  tasks=[research_task, url_task, writing_task],
   process=Process.sequential
 )
 
