@@ -67,7 +67,7 @@ research_task = Task(
   expected_output='Description draft'
 )
 writing_task = Task(
-  description='Compose a compelling summary with some technical data in 10 bullet points',
+  description='Compose a compelling summary including technical data table and pictures',
   agent=writer,
   expected_output='Final Summary'
 )
