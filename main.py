@@ -14,10 +14,8 @@ import openai
 from dotenv import load_dotenv
 
 
-# Check if the environment variable exists
-if "OPENAI_API_KEY" in os.environ:
-    # Delete the environment variable
-    del os.environ["OPENAI_API_KEY"]
+
+
 
 
 load_dotenv()
@@ -39,7 +37,7 @@ st.button("Find", type="primary")
 researcher = Agent(
   role='Researcher',
   goal='Conduct foundational research on watches',
-  backstory='An experienced watch researcher with a passion for uncovering insights',
+  backstory='An experienced watch researcher with a passion for uncovering insights on watches',
   tools=[WebsiteSearchTool()]
 )
 
@@ -52,8 +50,8 @@ writer = Agent(
 # Define your tasks
 
 url_task = Task(
-  description=f"""find the best high quality picture for the '{model}'.
-   Use the latest official manufacturer websites provide a valid link to a picture.
+  description=f"""Locate the best high quality picture for the '{model}' on a website.
+   Provide a valid link to a picture.
    Validate links availability.""",
   agent=researcher,
   expected_output= 'URL'
