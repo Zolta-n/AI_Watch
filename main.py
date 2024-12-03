@@ -53,7 +53,10 @@ writer = Agent(
 
 url_task = Task(
   description=f"""Your task is to visit the provided website URLs, extract the best fitting image URL from the page, and return it. 
-The image URL can be found in the 'src' attribute of an <img> tag. If the URL is relative, convert it to an absolute URL using the base URL of the website.""",
+The image URL can be found in the 'src' attribute of an <img> tag.
+Use tools to handle dynamic content (if needed) and provide headers to mimic a browser.  
+If the URL is relative, convert it to an absolute URL using the base URL of the website.
+Use Copy Image Link.""",
   agent=researcher,
   expected_output= 'URL to an image'
     )
